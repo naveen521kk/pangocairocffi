@@ -1,6 +1,8 @@
 from pathlib import Path
 import sys
 import os
+import subprocess
+from distutils.sysconfig import get_python_lib
 
 from unittest.mock import MagicMock, Mock
 
@@ -47,4 +49,8 @@ intersphinx_mapping = {
 
 sys.path.insert(0, os.path.abspath('..'))
 
+
+if os.environ.get("READTHEDOCS") == "True":
+    site_path = get_python_lib()
+    subprocess.run(["python", "pangocffi/ffi_build.py"], cwd=site_path)
 html_theme = "sphinx_rtd_theme"
